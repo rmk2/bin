@@ -20,8 +20,8 @@ case "$1" in
 	esac
 	;;
     "")
-	echo Error: This command needs two paths as parameters, a SOURCE path followed by a TARGET path
+	echo 'Error: This command needs two paths as parameters, a SOURCE path followed by a TARGET path'
 	;;
     *)
-	echo Error: First parameter is not a valid path
+	echo 'Error: First parameter is not a valid path'
 esac
