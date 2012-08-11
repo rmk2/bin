@@ -14,7 +14,7 @@ case "$1" in
 	find ~/.emacs.d/ -name "session*" -mtime +3 -print0 | xargs -0 rm
 	;;
     --tmp | tmp | -t)
-	find /tmp/ -mtime +3 -user `whoami` -print0 | xargs -0 rm -rf
+	find /tmp/ -mtime +3 -user `id -un` -print0 | xargs -0 rm -rf
 	;;
     --tmp-sudo | tmp-sudo | -T)
 	sudo find /tmp/ -mtime +3 -print0 | sudo xargs -0 rm -rf
