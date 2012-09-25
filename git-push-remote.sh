@@ -4,10 +4,14 @@ if
 [ `pwd` = '/home/ryko/Documents/TeX/universitet' ]; then
     echo
     echo "Pushing to remote repositories"
+    # echo "-------------"
+    # echo "> uni-login"
+    # echo "-------------"
+    # git push ph35
     echo "-------------"
-    echo "> uni-login"
+    echo "> ox"
     echo "-------------"
-    git push ph35
+    git push ox
     echo "-------------"
     echo "> bitbucket"
     echo "-------------"
@@ -20,7 +24,7 @@ if
     echo "-------------"
     echo "> running git archive on HEAD"
     echo "-------------"
-    git archive --format=tar.gz HEAD > ~/init.tar.gz
+    git archive --format=tar.gz HEAD > ~/universitet.tar.gz
     echo Success
     echo "-------------"
     echo "Mission accomplished!"

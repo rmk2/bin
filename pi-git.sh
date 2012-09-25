@@ -10,22 +10,25 @@ fi
 
 case $1 in
     -c | --create | create)
-	ssh -q $(id -un)@$NAME mkdir -p ~/$DIR/
-	ssh -q $(id -un)@$NAME git init ~/$DIR/
+	ssh -q $NAME mkdir -p ~/$DIR/
+#	ssh -q $NAME git init ~/$DIR/
 	;;
     -a | --add | add)
-	git remote add $NAME $(id -un)@$NAME:$DIR/.git/
+	git remote add $NAME $NAME:$DIR/.git/
 	;;
     -p | --push | push)
 	git push --all $NAME
 	;;
     --auto | auto)
-	ssh -q $(id -un)@$NAME mkdir -p ~/$DIR/
-	ssh -q $(id -un)@$NAME git init ~/$DIR/
-	git remote add $NAME $(id -un)@$NAME:$DIR/.git/
-	ssh -q $(id -un)@$NAME git --git-dir=$DIR/.git/ checkout -b dummy
+	ssh -q $NAME mkdir -p ~/$DIR/
+	ssh -q $NAME git init ~/$DIR/
+	git remote add $NAME $NAME:$DIR/.git/
+	ssh -q $NAME git --git-dir=$DIR/.git/ checkout -b dummy
 	git push --all $NAME
 	ssh -q $(id -un)@$NAME git --git-dir=$DIR/.git/ checkout master
+	;;
+    --test | -t)
+	echo $DIR
 	;;
     --help | -? | ?)
 	exit 0
