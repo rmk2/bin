@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 export WINEDEBUG=-all
