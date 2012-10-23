@@ -8,9 +8,9 @@ case "$1" in
 	case "$2" in
 	    /* | ~/*)
 		rsync -ahmv --delete-after --safe-links --exclude='**arm*' --exclude='.wine**' \
-		--exclude='.backup**' --exclude='.cache**' --include='Downloads/*' --exclude='Downloads/*.mp4' --include='Downloads/fonts**' \
-		--exclude='Downloads/**' --exclude='.thumbnails**' --exclude='Pictures/iwdrm**' --exclude='.libvirt**' \
-		--exclude='.local/share/wineprefixes**' --include='rpmbuild/SPECS**' --exclude='rpmbuild/*'  "$SOURCE" "$TARGET"
+		--exclude='.backup**' --exclude='.cache**' --include='Downloads/*' --exclude='Downloads/*.mp4' --exclude='Downloads/*.flv' \
+		--include='Downloads/fonts**' --exclude='Downloads/**' --exclude='.thumbnails**' --exclude='Pictures/iwdrm**' \
+		--exclude='.libvirt**' --exclude='.local/share/wineprefixes**' --include='rpmbuild/SPECS**' --exclude='rpmbuild/*' "$SOURCE" "$TARGET"
 		;;
 	    "")
 		echo Error: Second parameter is empty

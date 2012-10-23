@@ -11,11 +11,11 @@ if
     echo "-------------"
     echo "> ox"
     echo "-------------"
-    git push ox
+    git push ox HEAD:master
     echo "-------------"
     echo "> bitbucket"
     echo "-------------"
-    git push bb
+    git push bb HEAD:master
     echo "-------------"
     echo "> executing post-commit hook"
     echo "-------------"
