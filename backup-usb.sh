@@ -1,16 +1,31 @@
 #!/bin/bash
 
-SOURCE=`echo "$1"`
-TARGET=`echo "$2"`
+SOURCE="$1"
+TARGET="$2"
 
 case "$1" in
     /* | ~/*)
 	case "$2" in
 	    /* | ~/*)
-		rsync -ahmv --delete-after --safe-links --exclude='**arm*' --exclude='.wine**' \
-		--exclude='.backup**' --exclude='.cache**' --include='Downloads/*' --exclude='Downloads/*.mp4' --exclude='Downloads/*.flv' \
-		--include='Downloads/fonts**' --exclude='Downloads/**' --exclude='.thumbnails**' --exclude='Pictures/iwdrm**' \
-		--exclude='.libvirt**' --exclude='.local/share/wineprefixes**' --include='rpmbuild/SPECS**' --exclude='rpmbuild/*' "$SOURCE" "$TARGET"
+		rsync -ahmv --delete-after --safe-links			\
+		    --exclude='**arm*'					\
+		    --exclude='.wine**'					\
+		    --exclude='.adobe**'				\
+		    --exclude='.backup**'				\
+		    --exclude='.cache**'				\
+		    --exclude='Documents/universitet/phd/journal**'	\
+		    --include='Downloads/*'				\
+		    --exclude='Downloads/*.mp4'				\
+		    --exclude='Downloads/*.flv'				\
+		    --include='Downloads/fonts**'			\
+		    --exclude='Downloads/**'				\
+		    --exclude='.thumbnails**'				\
+		    --exclude='Pictures/iwdrm**'			\
+		    --exclude='.libvirt**'				\
+		    --exclude='.local/share/wineprefixes**'		\
+		    --include='rpmbuild/SPECS**'			\
+		    --exclude='rpmbuild/*'				\
+		    "$SOURCE" "$TARGET"
 		;;
 	    "")
 		echo Error: Second parameter is empty
@@ -25,3 +40,4 @@ case "$1" in
     *)
 	echo 'Error: First parameter is not a valid path'
 esac
+
