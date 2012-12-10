@@ -29,8 +29,8 @@ function create() {
 	if [ "$i" = "bb" ]; then
 	    echo "Please use the web interface on bitbucket.org to create remote repositories."
 	else
-	    ssh -q $NAME mkdir -p ~/$DIR
-	    ssh -q $NAME git init --bare ~/$DIR/.git
+	    ssh -q $NAME "mkdir -p ~/$DIR"
+	    ssh -q $NAME "git init --bare ~/$DIR/.git"
 	fi
     done
 }
