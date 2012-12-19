@@ -13,6 +13,6 @@ if (m/^\s+boolean true/) {
 system("ssh-add -D");
 } elsif (m/^\s+boolean false/) {
 #when screensaver deactivates, run the following commands
-system("sh /home/ryko/.bin/ssh-add.sh");
+system("sh ssh-add.sh");
 }
 }

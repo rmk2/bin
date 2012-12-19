@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPT=$(basename $0)
+
 ## define DIR and DIR aliases for specific folders (~/ & ~/.bin)
 
 case $(basename $(pwd)) in
@@ -75,7 +77,7 @@ case "$1" in
 	echo $ARRAY
 	;;
     -h | --help | -? | ? | help)
-	echo 'Usage: $NAME [OPTION] <remote server names>'
+	echo "Usage: $SCRIPT [OPTION] <remote server names>"
 	echo
 	echo Note:
 	echo 'If no remote (space-separated) servers are given, the standard servers are used.'
@@ -89,6 +91,6 @@ case "$1" in
 	echo -e '-A, --all \t create, then add, then push, as described above, for all given remote servers'
 	;;
     *)
-	echo Usage: $NAME [OPTION]
-	echo Try $NAME --help for more information.
+	echo "Usage: $SCRIPT [OPTION] <remote server names>"
+	echo "Try '$SCRIPT --help' for more information."
 esac
