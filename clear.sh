@@ -1,6 +1,11 @@
 #! /bin/bash
 
-NAME=`basename $0`
+NAME=$(basename $0)
+
+if [ -z "$1" ]; then
+    echo "Usage: $NAME [OPTION]"
+    echo "Try '$NAME --help' for more information."
+fi
 
 for i in $*; do
     case "$i" in
@@ -34,8 +39,8 @@ for i in $*; do
 	    echo
 	    ;;
 	*)
-	    echo Usage: $NAME [OPTION]
-	    echo Try $NAME --help for more information.
+	    echo "Usage: $NAME [OPTION]"
+	    echo "Try '$NAME --help' for more information."
 	    ;;
     esac
 done
