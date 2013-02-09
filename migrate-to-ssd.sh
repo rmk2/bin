@@ -32,6 +32,7 @@ case "$1" in
 	    --exclude='**arm*' \
 	    --exclude='.adobe**' \
 	    --exclude='.cache**' \
+	    --exclude='.libvirt**' \
 	    --exclude='.macromedia**' \
 	    --exclude='rpmbuild**' \
 	    --exclude='**.iso' \

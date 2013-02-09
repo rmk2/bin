@@ -20,7 +20,8 @@ esac
 if [ -z "$2" ]; then
     ARRAY="bb ox pi"
 else
-    ARRAY="$2 $3 $4 $5 $6"
+    shift
+    ARRAY="$@"
 fi
 
 ## define functions
@@ -82,7 +83,7 @@ case "$1" in
 	echo Note:
 	echo 'If no remote (space-separated) servers are given, the standard servers are used.'
 	echo -e '\t\t Standard servers: bb, ox, pi'
-	echo -e '\t\t Maximum servers: 5'
+#	echo -e '\t\t Maximum servers: 5'
 	echo
 	echo Available options:
 	echo -e '-c, --create \t create folders and initialise a bare git repository on the remote server'

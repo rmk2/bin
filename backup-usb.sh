@@ -14,9 +14,9 @@ case "$1" in
 		    --exclude='.backup**'				\
 		    --exclude='.cache**'				\
 		    --exclude='Documents/universitet/phd/journal**'	\
-		    --include='Downloads/*'				\
 		    --exclude='Downloads/*.mp4'				\
 		    --exclude='Downloads/*.flv'				\
+		    --include='Downloads/*'				\
 		    --include='Downloads/fonts**'			\
 		    --exclude='Downloads/**'				\
 		    --exclude='.thumbnails**'				\
@@ -25,6 +25,7 @@ case "$1" in
 		    --exclude='.local/share/wineprefixes**'		\
 		    --include='rpmbuild/SPECS**'			\
 		    --exclude='rpmbuild/*'				\
+		    --exclude='.local/share/Steam/**'                   \
 		    "$SOURCE" "$TARGET"
 		;;
 	    "")
