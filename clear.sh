@@ -7,7 +7,7 @@ if [ -z "$1" ]; then
     echo "Try '$NAME --help' for more information."
 fi
 
-for i in $*; do
+for i in $@; do
     case "$i" in
 	--cache | cache | -c)
 	    rm -f ~/.cache/chromium/Default/Cache/*
