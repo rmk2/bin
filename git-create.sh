@@ -17,11 +17,13 @@ esac
 
 ## define server names
 
-if [ -z "$2" ]; then
-    ARRAY="bb ox pi"
-else
+if [ "$#" -ge "2" ]; then
+    OPTION="$1"
     shift
     ARRAY="$@"
+else
+    OPTION="$1"
+    ARRAY="bb ox pi"
 fi
 
 ## define functions
@@ -58,7 +60,7 @@ function push() {
 
 ## execution part
 
-case "$1" in
+case "$OPTION" in
     -c | --create | create)
 	create
 	;;
