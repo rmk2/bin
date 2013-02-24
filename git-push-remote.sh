@@ -1,10 +1,21 @@
 #!/bin/bash
 
-if [ "$*" == "--pi" ]; then
-    ARRAY="ox bb edis pi"
-else
-    ARRAY="ox bb edis"
-fi
+ARRAY="ox bb edis"
+
+for i in "$@"; do
+    case "$1" in
+	-p | --pi | -pi | pi)
+	    ARRAY="ox bb edis pi"
+	    ;;
+	-h | --hooks | -hooks | hooks)
+	    HOOKS=true
+	    ;;
+	-a | --archive | -archive | archive)
+	    ARCHIVE=true
+	    ;;
+    esac
+    shift
+done
 
 function exec-push() {
     for i in $ARRAY; do
@@ -44,6 +55,12 @@ elif [ -d './.git' ]; then
     echo
     echo "Pushing to remote repositories"
     exec-push
+    if [ "$HOOKS" == "true" ]; then
+	exec-hooks
+    fi
+    if [ "$ARCHIVE" == "true" ]; then
+	exec-archive
+    fi
     echo "-------------"
     echo "Mission accomplished!"
     echo
