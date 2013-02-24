@@ -6,7 +6,7 @@ else
     ARRAY="ox bb edis"
 fi
 
-function push() {
+function exec-push() {
     for i in $ARRAY; do
 	echo "-------------"
 	echo "> $i"
@@ -34,7 +34,7 @@ function exec-archive() {
 if [ $(pwd) = '/home/ryko/Documents/TeX/universitet' ]; then
     echo
     echo "Pushing to remote repositories"
-    push
+    exec-push
     exec-hooks
     exec-archive
     echo "-------------"
@@ -43,7 +43,7 @@ if [ $(pwd) = '/home/ryko/Documents/TeX/universitet' ]; then
 elif [ -d './.git' ]; then
     echo
     echo "Pushing to remote repositories"
-    push
+    exec-push
     echo "-------------"
     echo "Mission accomplished!"
     echo
