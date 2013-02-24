@@ -1,24 +1,18 @@
 #!/bin/bash
 
-function push-ox() {
-    echo "-------------"
-    echo "> ox"
-    echo "-------------"
-    git push ox HEAD:master
-}
+if [ "$*" == "--pi" ]; then
+    ARRAY="ox bb edis pi"
+else
+    ARRAY="ox bb edis"
+fi
 
-function push-bb() {
-    echo "-------------"
-    echo "> bitbucket"
-    echo "-------------"
-    git push bb HEAD:master
-}
-
-function push-pi() {
-    echo "-------------"
-    echo "> pi"
-    echo "-------------"
-    git push pi HEAD:master
+function push() {
+    for i in $ARRAY; do
+	echo "-------------"
+	echo "> $i"
+	echo "-------------"
+	git push $i HEAD:master
+    done
 }
 
 function exec-hooks() {
@@ -40,11 +34,7 @@ function exec-archive() {
 if [ $(pwd) = '/home/ryko/Documents/TeX/universitet' ]; then
     echo
     echo "Pushing to remote repositories"
-    push-ox
-    push-bb
-    if [ "$1" == "--pi" ]; then
-	push-pi
-    fi
+    push
     exec-hooks
     exec-archive
     echo "-------------"
@@ -53,11 +43,7 @@ if [ $(pwd) = '/home/ryko/Documents/TeX/universitet' ]; then
 elif [ -d './.git' ]; then
     echo
     echo "Pushing to remote repositories"
-    push-ox
-    push-bb
-    if [ "$1" == "--pi" ]; then
-	push-pi
-    fi
+    push
     echo "-------------"
     echo "Mission accomplished!"
     echo

@@ -8,7 +8,7 @@ case $(basename $(pwd)) in
     ryko)
 	DIR="backup/git/config"
 	;;
-    .bin)
+    .bin | bin)
 	DIR="backup/git/scripts"
 	;;
     *)
