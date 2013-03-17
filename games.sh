@@ -20,7 +20,8 @@ case "$1" in
 	;;
     sc4 | sim)
 	WINEPREFIX=~/.wine-sc4 wine "C:\Program Files\SimCity 4 Deluxe\Apps\SimCity 4.exe" \
-	    -d:opengl -intro:off -CPUCount:1 -CustomResolution:enabled -r1280x800x32
+	    -d:opengl -intro:off -audio:off -music:off -CPUCount:1 \
+	    -CustomResolution:enabled -r1280x800x32
 	;;
     sims | sims3 | ts3)
 	WINEPREFIX=~/.wine-sims wine "C:\Program Files\The Sims 3\Game\Bin\TS3.exe"
