@@ -13,15 +13,22 @@ for i in "$@"; do
 	-a | --archive | -archive | archive)
 	    ARCHIVE=true
 	    ;;
+	-t | --tags | -tags | tags)
+	    TAGS=true
+	    ;;
     esac
     shift
 done
+
 
 function exec-push() {
     for i in $ARRAY; do
 	echo "-------------"
 	echo "> $i"
 	echo "-------------"
+	if [ "$TAGS" == "true" ]; then
+	    git push --tags $i HEAD:master
+	fi
 	git push $i HEAD:master
     done
 }

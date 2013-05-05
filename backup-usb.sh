@@ -26,6 +26,7 @@ case "$1" in
 		    --include='rpmbuild/SPECS**'			\
 		    --exclude='rpmbuild/*'				\
 		    --exclude='.local/share/Steam/**'                   \
+		    --exclude='.thunderbird/*.default/ImapMail'         \
 		    "$SOURCE" "$TARGET"
 		;;
 	    "")
