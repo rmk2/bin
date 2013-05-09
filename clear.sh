@@ -34,7 +34,7 @@ for i in $@; do
 	    echo Available options:
 	    echo -e '-c, --cache \t clear browser caches located in ~/.cache unconditionally'
 	    echo -e '-e, --emacs \t clear emacs autosave and session files older than 3 days in ~/.emacs.d'
-	    echo -e '-t, --tmp \t clear user generated tmp files older than 3 days in /tmp'
+	    echo -e '-t, --tmp \t\t clear user generated tmp files older than 3 days in /tmp'
 	    echo -e '-T, --tmp-sudo \t clear ALL tmp files older than 3 days in /tmp -- NEEDS SUDO PRIVILEGE'
 	    echo
 	    ;;
