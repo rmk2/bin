@@ -12,7 +12,7 @@ fi
 for i in $@; do
     case "$i" in
 	--checksums | -c | checksums)
-	    echo "Attachment: SHA512 checksums for all files under /boot for $HOST" | sudo mailx -s "[$HOST] Checksums" -a /home/ryko/ares_boot.sha512 $RECIPIENT
+	    echo "Attachment: SHA512 checksums for all files under /boot for $HOST" | sudo mailx -s "[$HOST] Checksums" -a /home/ryko/$(hostname -s)_boot.sha512 $RECIPIENT
 	    ;;
 	--iptables | -i | iptables)
 	    echo "Attachment: iptables rules for $HOST" | sudo mailx -s "[$HOST] IPtables" -a /etc/iptables.save $RECIPIENT
