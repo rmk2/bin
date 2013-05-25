@@ -28,6 +28,7 @@ class i3_exit:
 
     def logout_action(self,btn):
         self.disable_buttons()
+        os.system("emacs-shutdown.sh")
         os.system(prefix + "i3-pre-exit")
         os.system("i3-msg exit")
 
@@ -65,6 +66,7 @@ class i3_exit:
 
     def shutdown_action(self,btn):
         self.disable_buttons()
+        os.system("emacs-shutdown.sh")
         os.system(prefix + 'i3-pre-exit')
         os.system("dbus-send --system --print-reply   \
                 --dest=\"org.freedesktop.ConsoleKit\" \
