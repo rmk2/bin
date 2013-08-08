@@ -22,6 +22,10 @@ class i3_exit:
         self.reboot.set_sensitive(False)
         self.shutdown.set_sensitive(False)
 
+    def keypress(self,widget,event):
+        if event.keyval == gtk.keysyms.Escape:
+            gtk.main_quit()
+
     def cancel_action(self,btn):
         self.disable_buttons()
         gtk.main_quit()
@@ -148,7 +152,7 @@ class i3_exit:
         
     def __init__(self):
         self.create_window()
-
+        self.window.connect("key-press-event", self.keypress)
 
 def main():
     gtk.main()
