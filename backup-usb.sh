@@ -7,7 +7,7 @@ case "$1" in
     /* | ~/*)
 	case "$2" in
 	    /* | ~/*)
-		rsync -ahmv --delete-after --safe-links			\
+		rsync -ahmv --delete			                \
 		    --exclude='**arm*'					\
 		    --exclude='.wine**'					\
 		    --exclude='.adobe**'				\
