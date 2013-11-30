@@ -10,6 +10,6 @@ else
 fi
 
 rsync -achmv --delete-after --safe-links --exclude='.*~' --exclude='#.*' --exclude='.emacs.d/session*' --exclude='.emacs.d/elpa*' \
---exclude='.emacs.d/plugins*' --exclude='.emacs.d/.ido.last' --exclude='.emacs.d/.smex.last' \
---exclude='.gnupg/.#*' --exclude='.gnupg/*~' --include='.*emacs**' --include='memory' --include='.ssh**' \
+--exclude='.emacs.d/plugins*' --exclude='.emacs.d/tutorial*' --exclude='.emacs.d/.ido.last' --exclude='.emacs.d/.smex.last' \
+--exclude='.gnupg/.#*' --exclude='.gnupg/*~' --include='.*emacs**' --include='memory' --exclude='*.old' --include='.ssh**' \
 --include='.gnupg**' --include='.openvpn**' --include='.bashrc' --include='.zsh*' --exclude='*' "$SOURCE" "$TARGET"

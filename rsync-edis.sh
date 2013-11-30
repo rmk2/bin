@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rsync -tvl --delete --rsh=ssh --files-from=/home/ryko/rsync.edis edis:/ ~/ares/
+rsync -tvl --fake-super --delete --rsh=ssh --files-from=$HOME/rsync.edis edis:/ ~/ares/
