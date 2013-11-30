@@ -23,7 +23,7 @@ if [ "$#" -ge "2" ]; then
     ARRAY="$@"
 else
     OPTION="$1"
-    ARRAY="bb ox pi"
+    ARRAY="bb ox pi edis"
 fi
 
 ## define functions
