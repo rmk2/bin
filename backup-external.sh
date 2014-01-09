@@ -6,6 +6,9 @@ SCRIPT=$(basename $0)
 
 TEST=""
 
+# Hardcoded partition instead of having the user input the path manually
+EXTDISK=/dev/disk/by-id/usb-TOSHIBA_External_USB_3.0_20130205030430-0:0-part1
+
 VG="storage"
 LV="backup"
 
@@ -29,7 +32,7 @@ function ext_close() {
     sudo cryptsetup luksClose cr_$VG
 }
 
-function home() {
+function exec-home() {
     sudo rsync -aAHXv $TEST \
 	--exclude='*/.adobe**' \
 	--exclude='*/.cache**' \
@@ -40,7 +43,7 @@ function home() {
 	$HOME $TARGET$HOME
 }
 
-function system() {
+function exec-root() {
     sudo rsync -aAHXv --delete $TEST \
 	--exclude='/home**' \
 	--exclude='/dev**' \
@@ -55,7 +58,7 @@ function system() {
 	$ROOT $TARGET
 }
 
-function create() {
+function exec-create() {
     for DIR in "dev" "media" "mnt" "proc" "run/media" "sys" "tmp" "windows"; do
 	if [ ! -e $TARGET/$DIR ]; then
 	    sudo mkdir -p $TARGET$DIR
@@ -79,6 +82,16 @@ for i in "$@"; do
 	    ext_close
 	    exit 0
 	    ;;
+	-H | --home)
+	    RUN_HOME=true
+	    ;;
+	-R | --root | --system)
+	    RUN_ROOT=true
+	    ;;
+	-a | -A | --all)
+	    RUN_HOME=true
+	    RUN_ROOT=true
+	    ;;
 	-h | --help | -? | ? | help)
 	    echo "Usage: $SCRIPT [OPTIONS] <location of external disk>"
 	    echo
@@ -87,18 +100,21 @@ for i in "$@"; do
 	    echo
 	    echo Available options:
 	    # echo -e '-b, --backup \t this option is mandatory, otherwise the script will abort'
-	    echo -e '-t, --test \t do not touch any actual files but print instead what this script would have done'
+	    echo -e '-t, --test \t do not touch any files but print what this script would have done instead'
+	    echo -e '-H, --home \t only backup /home directories'
+	    echo -e '-R, --root \t only backup root directory, excluding /home'
+	    echo -e '-a, --all \t backup root directory AND /home directories'
 	    exit 0
 	    ;;
-	/dev/sd*)
-	    if [[ -e "$1" ]]; then
-	    	EXTDISK="$1"
-	    else
-	    	echo "No disk found at $1"
-	    	exit 1
-	    fi
-	    ;;
-	*)
+	# /dev/sd*)
+	#     if [[ -e "$1" ]]; then
+	#     	EXTDISK="$1"
+	#     else
+	#     	echo "No disk found at $1"
+	#     	exit 1
+	#     fi
+	#     ;;
+	* | "")
 	    echo "Usage: $SCRIPT [OPTIONS] <location of external disk>"
 	    echo "Try '$SCRIPT --help' for more information."
 	    exit 0
@@ -120,15 +136,23 @@ if [[ -n "$EXTDISK" ]]; then
 	echo "-------------"
 	echo "> creating excluded dirs"
 	echo "-------------"
-	create
+	exec-create
 	echo "-------------"
 	echo "> backup: $ROOT"
 	echo "-------------"
-	system
+	if [ "$RUN_ROOT" == "true" ]; then
+	    exec-root
+	else
+	    echo "skipped"
+	fi
 	echo "-------------"
 	echo "> backup: $HOME"
 	echo "-------------"
-	home
+	if [ "$RUN_HOME" == "true" ]; then
+	    exec-home
+	else
+	    echo "skipped"
+	fi
 	echo "-------------"
 	echo "> unmounting"
 	echo "-------------"
