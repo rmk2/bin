@@ -9,3 +9,5 @@ while [ "$NUMBER" -le $FLOOR ]; do
     let "NUMBER %= $RANGE"
 done
 echo \(d"$1"\) $NUMBER
+
+# MY_VAR=$[ 1 + $[ RANDOM % 10 ]]
