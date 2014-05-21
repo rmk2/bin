@@ -45,10 +45,7 @@ class i3_exit:
     def suspend_action(self,btn):
         self.disable_buttons()
         os.system("xscreensaver-command -l")
-        os.system("dbus-send --system --print-reply \
-                --dest=\"org.freedesktop.UPower\"   \
-                /org/freedesktop/UPower             \
-                org.freedesktop.UPower.Suspend")
+        os.system("systemctl suspend")
         gtk.main_quit()
 
     # def hibernate_action(self,btn):
@@ -64,19 +61,13 @@ class i3_exit:
         self.disable_buttons()
         os.system("emacs-shutdown.sh")
         os.system(prefix + 'i3-pre-exit')
-        os.system("dbus-send --system --print-reply   \
-                --dest=\"org.freedesktop.ConsoleKit\" \
-                /org/freedesktop/ConsoleKit/Manager   \
-                org.freedesktop.ConsoleKit.Manager.Restart")
+        os.system("systemctl reboot")
 
     def shutdown_action(self,btn):
         self.disable_buttons()
         os.system("emacs-shutdown.sh")
         os.system(prefix + 'i3-pre-exit')
-        os.system("dbus-send --system --print-reply   \
-                --dest=\"org.freedesktop.ConsoleKit\" \
-                /org/freedesktop/ConsoleKit/Manager   \
-                org.freedesktop.ConsoleKit.Manager.Stop")
+        os.system("systemctl poweroff")
 
     def create_window(self):
         self.window = gtk.Window()
