@@ -14,10 +14,15 @@ case "$1" in
 		    --exclude='.backup**'				\
 		    --exclude='.cache**'				\
 		    --exclude='Documents/universitet/phd/journal**'	\
+		    --exclude='Documents/rpg/star-wars/pdf**'		\
 		    --exclude='Downloads/*.mp4'				\
 		    --exclude='Downloads/*.flv'				\
+		    --exclude='Downloads/*.webm'			\
+		    --exclude='Downloads/*.zip'				\
+		    --exclude='Downloads/*.ogg'				\
 		    --include='Downloads/*'				\
-		    --include='Downloads/fonts**'			\
+		    --include='Downloads/fonts/*.zip'			\
+		    --exclude='Downloads/fonts**'			\
 		    --exclude='Downloads/**'				\
 		    --exclude='.thumbnails**'				\
 		    --exclude='Pictures/iwdrm**'			\
@@ -27,6 +32,9 @@ case "$1" in
 		    --exclude='rpmbuild/*'				\
 		    --exclude='.local/share/Steam/**'                   \
 		    --exclude='.thunderbird/*.default/ImapMail'         \
+		    --exclude='.kde4/share/apps/okular/docdata/**'	\
+		    --exclude='Maildir**'				\
+		    --exclude='evething**'				\
 		    "$SOURCE" "$TARGET"
 		;;
 	    "")
