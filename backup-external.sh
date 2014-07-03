@@ -14,6 +14,7 @@ LV="backup"
 
 ROOT="/"
 HOME="/home/"
+DATA="/data/"
 TARGET="/mnt/$LV/"
 
 function ext_open() {
@@ -21,6 +22,7 @@ function ext_open() {
     sudo vgscan
     sudo vgchange -ay $VG
     sudo mkdir -p $TARGET
+    sleep 1
     sudo mount /dev/$VG/$LV $TARGET
 }
 
@@ -30,6 +32,11 @@ function ext_close() {
     sudo rm -ri $TARGET
     sudo vgchange -an $VG
     sudo cryptsetup luksClose cr_$VG
+}
+
+function exec-data() {
+    sudo rsync -aAHXv $TEST \
+	$DATA $TARGET$DATA
 }
 
 function exec-home() {
@@ -46,6 +53,7 @@ function exec-home() {
 function exec-root() {
     sudo rsync -aAHXv --delete $TEST \
 	--exclude='/home**' \
+	--exclude='/data**' \
 	--exclude='/dev**' \
 	--exclude='/media**' \
 	--exclude='/mnt**' \
@@ -88,9 +96,13 @@ for i in "$@"; do
 	-R | --root | --system)
 	    RUN_ROOT=true
 	    ;;
+	-D | --data)
+	    RUN_DATA=true
+	    ;;
 	-a | -A | --all)
 	    RUN_HOME=true
 	    RUN_ROOT=true
+	    RUN_DATA=true
 	    ;;
 	-h | --help | -? | ? | help)
 	    echo "Usage: $SCRIPT [OPTIONS] <location of external disk>"
@@ -102,8 +114,9 @@ for i in "$@"; do
 	    # echo -e '-b, --backup \t this option is mandatory, otherwise the script will abort'
 	    echo -e '-t, --test \t do not touch any files but print what this script would have done instead'
 	    echo -e '-H, --home \t only backup /home directories'
-	    echo -e '-R, --root \t only backup root directory, excluding /home'
-	    echo -e '-a, --all \t backup root directory AND /home directories'
+	    echo -e '-R, --root \t only backup root directory'
+	    echo -e '-D, --data \t only backup data directory'
+	    echo -e '-a, --all \t backup root directory, data directory AND /home directories'
 	    exit 0
 	    ;;
 	# /dev/sd*)
@@ -142,6 +155,14 @@ if [[ -n "$EXTDISK" ]]; then
 	echo "-------------"
 	if [ "$RUN_ROOT" == "true" ]; then
 	    exec-root
+	else
+	    echo "skipped"
+	fi
+	echo "-------------"
+	echo "> backup: $DATA"
+	echo "-------------"
+	if [ "$RUN_DATA" == "true" ]; then
+	    exec-data
 	else
 	    echo "skipped"
 	fi
