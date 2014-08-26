@@ -66,6 +66,10 @@ for i in "$@"; do
 	-s | --sync)
 	    RUN_SYNC=true
 	    ;;
+	-S | --sync-open)
+	    exec_sync
+	    exit 0
+	    ;;
     esac
 done
 
