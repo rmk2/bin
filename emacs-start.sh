@@ -1,2 +1,2 @@
 #!/bin/bash
-emacs --daemon
+env -u XMODIFIERS emacs --daemon
