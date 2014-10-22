@@ -7,7 +7,8 @@ SCRIPT=$(basename $0)
 TEST=""
 
 # Hardcoded partition instead of having the user input the path manually
-EXTDISK=/dev/disk/by-id/usb-TOSHIBA_External_USB_3.0_20130205030430-0:0-part1
+# EXTDISK=/dev/disk/by-id/usb-TOSHIBA_External_USB_3.0_20130205030430-0:0-part1
+EXTDISK=/dev/disk/by-id/scsi-STOSHIBA_External_USB_3.0_80E74485-part1
 
 VG="storage"
 LV="backup"
@@ -51,7 +52,7 @@ function exec-home() {
 }
 
 function exec-root() {
-    sudo rsync -aAHXv --delete $TEST \
+    sudo rsync -aAHXxv --delete $TEST \
 	--exclude='/home**' \
 	--exclude='/data**' \
 	--exclude='/dev**' \
