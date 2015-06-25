@@ -5,7 +5,7 @@ ARRAY="ox bb edis"
 for i in "$@"; do
     case "$1" in
 	-p | --pi | -pi | pi)
-	    ARRAY="ox bb edis pi"
+	    ARRAY+="pi"
 	    ;;
 	-h | --hooks | -hooks | hooks)
 	    HOOKS=true
