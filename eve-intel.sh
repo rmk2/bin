@@ -33,7 +33,10 @@ function clean_tmp_files() {
 
 function set_time() {
     case $TIME_INTERVAL in
-	day|week|month)
+	day)
+	    DATE="$(date +%Y%m%d)"
+	    ;;
+	week|month)
 	    DATE=$(date +%Y%m%d --date="1 $TIME_INTERVAL ago")
 	    ;;
 	first)
@@ -81,6 +84,7 @@ function check_data() {
 
 function parse_input() {
     json -ga attackers | json -ga $1 -d$2 | sed -n -e $3 | sort | uniq
+    # eve-intel.rkt -ai | awk 'BEGIN { FS = "," } ; { print $1","$2","$3","$4 }' | sort | uniq
 }
 
 function combine_input() {
