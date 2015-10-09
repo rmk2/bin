@@ -90,45 +90,30 @@ function combine_input() {
     fi
 }
 
-while getopts :cdfimstwx OPT; do
+while getopts :co:d:i: OPT; do
     case $OPT in
-	x|+x)
-	    echo "Dummy argument for testing purposes"
-	    exit 0
-	    ;;
-
-	s|+s)
-	    DUMMY=0
-	    ;;
-	t|+t)
-	    DUMMY=0
-	    ;;
-	i|+i)
-	    INPUT="interactive"
+	o|+o)
+	    OUTPUT_FILE=$OPTARG
 	    ;;
 	d|+d)
-	    TIME_INTERVAL="day"
+	    DAYS=$OPTARG
 	    ;;
-	w|+w)
-	    TIME_INTERVAL="week"
-	    ;;
-	m|+m)
-	    TIME_INTERVAL="month"
-	    ;;
-	f|+f)
-	    TIME_INTERVAL="first"
+	i|+i)
+	    WAIT_INTERVAL=$OPTARG
 	    ;;
 	c|+c)
 	    clean_tmp_files
 	    exit 0
 	    ;;
 	*)
-	    echo "usage: ${0##*/} [+-cdfimstwx} [--] ARGS..."
+	    echo "usage: ${0##*/} [+-co:d:s:} [--] ARGS..."
 	    exit 2
     esac
 done
 shift $(( OPTIND - 1 ))
 OPTIND=1
+
+clean_tmp_files # Make sure we don't have any stale TEMP-files
 
 for i in $(seq $DAYS -1 0); do
     
