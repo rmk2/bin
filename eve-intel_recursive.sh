@@ -21,8 +21,6 @@ function clean_tmp_files() {
     
     if [[ -e $TMP_SUPERS || -e $TMP_TITANS || -e $TMP_ALL ]] ; then
 	rm $TMP_SUPERS $TMP_TITANS $TMP_ALL
-    else
-	return
     fi
 }
 
@@ -126,7 +124,7 @@ for i in $(seq $DAYS -1 0); do
 
     echo
     echo "-------------"
-    echo "Pulling data for: $(date +%Y%m%d --date="$TIME_INTERVAL days ago")"
+    echo "> Pulling data for: $(date +%Y%m%d --date="$TIME_INTERVAL days ago")"
     echo "-------------"
 
     #    set_time
@@ -142,7 +140,7 @@ for i in $(seq $DAYS -1 0); do
 
     if [ $i -gt 0 ]; then
 	echo "-------------"
-	echo "Waiting for $WAIT_INTERVAL seconds until next API pull"
+	echo "> Waiting for $WAIT_INTERVAL seconds until next API pull"
 	sleep $WAIT_INTERVAL
     else
 	echo "-------------"
