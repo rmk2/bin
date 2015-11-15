@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WEBROOT="/var/www/servers/eve.rmk2.org/pages/"
+WEBROOT="/var/www/servers/eve.rmk2.org/pages/.templates/"
 DELAYED=false
 
 function exec_latest() {
