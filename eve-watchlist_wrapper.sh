@@ -2,33 +2,25 @@
 
 WEBROOT="/var/www/servers/eve.rmk2.org/pages/.templates/"
 DELAYED=false
+TYPE="latest"
 
-function exec_latest() {
-    for i in 1000 750; do
-	
-	echo "-------------"
-	echo "> Generating latest watchlist with $i entries"
-	echo "-------------"
-	/home/ryko/bin/eve-watchlist.rkt --hostile --length $i > $WEBROOT/all_latest-$i.js
-	/home/ryko/bin/eve-watchlist.rkt --custom "PL|NC|DRF|TC" --length $i > $WEBROOT/major_latest-$i.js
-	/home/ryko/bin/eve-watchlist.rkt --custom "^(?!PL|NC|IMP|DRF).+" --length $i > $WEBROOT/minor_latest-$i.js
-	echo "Success!"
-	
-    done
-}
+function exec_watchlist() {
+    if [[ $DELAYED == "true" ]]; then
+	TYPE="delayed"
+    else
+	TYPE="latest"
+    fi
 
-function exec_delayed() {
     for i in 1000 750; do
-	
 	echo "-------------"
-	echo "> Generating delayed watchlist with $i entries"
+	echo "> Generating $TYPE watchlist with $i entries"
 	echo "-------------"
-	/home/ryko/bin/eve-watchlist.rkt --hostile --length $i > $WEBROOT/all_delayed-$i.js
-	/home/ryko/bin/eve-watchlist.rkt --custom "PL|NC|DRF|TC" --length $i > $WEBROOT/major_delayed-$i.js
-	/home/ryko/bin/eve-watchlist.rkt --custom "^(?!PL|NC|IMP|DRF).+" --length $i > $WEBROOT/minor_delayed-$i.js
+	/home/ryko/bin/eve-watchlist.rkt --hostile --length $i > $WEBROOT/all_$TYPE-$i.js
+	/home/ryko/bin/eve-watchlist.rkt --custom "PL|NC|DRF|TC" --length $i > $WEBROOT/major_$TYPE-$i.js
+	/home/ryko/bin/eve-watchlist.rkt --custom "^(?!PL|NC|IMP|DRF).+" --length $i > $WEBROOT/minor_$TYPE-$i.js
 	echo "Success!"
-	
     done
+    
 }
 
 while getopts :p:d OPT; do
@@ -40,7 +32,7 @@ while getopts :p:d OPT; do
 	    DELAYED=true
 	    ;;
 	*)
-	    echo "usage: ${0##*/} [+-o ARG] [+-d} [--] ARGS..."
+	    echo "usage: ${0##*/} [+-p ARG] [+-d} [--] ARGS..."
 	    exit 2
     esac
 done
@@ -50,11 +42,7 @@ OPTIND=1
 # Exec
 
 echo
-if [[ $DELAYED == "true" ]]; then
-    exec_delayed
-else
-    exec_latest
-fi
+exec_watchlist
 echo "-------------"
 echo "Mission accomplished!"
 echo
