@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 WEBROOT="/var/www/servers/eve.rmk2.org/pages/.templates/"
 DELAYED=false
 TYPE="latest"
