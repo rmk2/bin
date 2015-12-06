@@ -17,6 +17,8 @@ TMP_SUPERS="/dev/shm/super-involved.txt"
 TMP_TITANS="/dev/shm/titan-involved.txt"
 TMP_ALL="/dev/shm/all-involved.txt"
 
+QUIET=false
+
 function clean_tmp_files() {
     
     if [[ -e $TMP_SUPERS || -e $TMP_TITANS || -e $TMP_ALL ]] ; then
@@ -30,7 +32,7 @@ function set_time() {
     
     API_SUPERS="https://zkillboard.com/api/kills/groupID/659/no-items/startTime/"$DATE"0000/endTime/"$DATE"2359"
     API_TITANS="https://zkillboard.com/api/kills/groupID/30/no-items/startTime/"$DATE"0000/endTime/"$DATE"2359"
-   
+    
 }
 
 function get_data() {
@@ -88,7 +90,19 @@ function combine_input() {
     fi
 }
 
-while getopts :co:d:i: OPT; do
+function exec_main() {
+    
+    check_data --supers
+    check_data --titans
+    combine_input
+
+    <$TMP_ALL parse_input | sed -e "s/\$/,$(date +%Y-%m-%d --date="$TIME_INTERVAL days ago")/g" >> $OUTPUT_FILE
+
+    clean_tmp_files
+    
+}
+
+while getopts :cqo:d:i: OPT; do
     case $OPT in
 	o|+o)
 	    OUTPUT_FILE=$OPTARG
@@ -102,6 +116,9 @@ while getopts :co:d:i: OPT; do
 	c|+c)
 	    clean_tmp_files
 	    exit 0
+	    ;;
+	q|+q)
+	    QUIET=true
 	    ;;
 	*)
 	    echo "usage: ${0##*/} [+-co:d:s:} [--] ARGS..."
@@ -122,31 +139,38 @@ for i in $(seq $DAYS -1 0); do
     API_SUPERS="https://zkillboard.com/api/kills/groupID/659/no-items/startTime/"$DATE"0000/endTime/"$DATE"2359"
     API_TITANS="https://zkillboard.com/api/kills/groupID/30/no-items/startTime/"$DATE"0000/endTime/"$DATE"2359"
 
-    echo
-    echo "-------------"
-    echo "> Pulling data for: $(date +%Y%m%d --date="$TIME_INTERVAL days ago")"
-    echo "-------------"
+    if [[ $QUIET == true ]]; then
+	
+	exec_main
 
-    #    set_time
-    check_data --supers
-    check_data --titans
-    combine_input
-
-    <$TMP_ALL parse_input | sed -e "s/\$/,$(date +%Y-%m-%d --date="$TIME_INTERVAL days ago")/g" >> $OUTPUT_FILE
-
-    echo "Output appended to $OUTPUT_FILE"
-
-    clean_tmp_files
-
-    if [ $i -gt 0 ]; then
-	echo "-------------"
-	echo "> Waiting for $WAIT_INTERVAL seconds until next API pull"
-	sleep $WAIT_INTERVAL
+	if [ $i -gt 0 ]; then
+	    sleep $WAIT_INTERVAL
+	else
+	    exit 0
+	fi
+	
     else
-	echo "-------------"
-	echo "Mission accomplished!"
+
 	echo
-	exit 0
+	echo "-------------"
+	echo "> Pulling data for: $(date +%Y%m%d --date="$TIME_INTERVAL days ago")"
+	echo "-------------"
+
+	exec_main
+
+	echo "Output appended to $OUTPUT_FILE"
+
+	if [ $i -gt 0 ]; then
+	    echo "-------------"
+	    echo "> Waiting for $WAIT_INTERVAL seconds until next API pull"
+	    sleep $WAIT_INTERVAL
+	else
+	    echo "-------------"
+	    echo "Mission accomplished!"
+	    echo
+	    exit 0
+	fi
+	
     fi
     
 done
