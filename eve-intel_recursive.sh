@@ -69,7 +69,7 @@ function check_data() {
 }
 
 function parse_input() {
-    eve-intel.rkt -aiT | sort | uniq
+    eve-intel.rkt -ai | sort | uniq
 }
 
 function combine_input() {
@@ -96,7 +96,7 @@ function exec_main() {
     check_data --titans
     combine_input
 
-    <$TMP_ALL parse_input | sed -e "s/\$/,$(date +%Y-%m-%d --date="$TIME_INTERVAL days ago")/g" >> $OUTPUT_FILE
+    <$TMP_ALL parse_input >> $OUTPUT_FILE
 
     clean_tmp_files
     
