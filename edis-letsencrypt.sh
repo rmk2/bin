@@ -12,8 +12,25 @@ EMAIL="mail@rmk2.org"
 
 DOMAIN_LIST="eve.rmk2.org imap.rmk2.org smtp.rmk2.org f.rmk2.org p.rmk2.org"
 
+while getopts :d:e: OPT; do
+    case $OPT in
+	d|+d)
+	    DOMAIN_LIST="$OPTARG"
+	    ;;
+	e|+e)
+	    EMAIL="$OPTARG"
+	    ;;
+	*)
+	    echo "usage: ${0##*/} [+-d ARG] [+-e ARG} [--] ARGS..."
+	    exit 2
+    esac
+done
+shift $(( OPTIND - 1 ))
+OPTIND=1
+
 echo
-echo "Renewing the following domains: $DOMAIN_LIST"
+echo "> Email address: $EMAIL"
+echo "> Renewing the following domains: $DOMAIN_LIST"
 
 for i in $DOMAIN_LIST; do
     DOMAIN=$i
@@ -33,11 +50,11 @@ for i in $DOMAIN_LIST; do
 	    echo "...concatenating files"
 	    sudo cat $SOURCE_DIR/$DOMAIN/cert.pem $SOURCE_DIR/$DOMAIN/privkey.pem | sudo tee $LIGHTTPD_DIR/ssl/$DOMAIN/server.pem
 
-	    if [ ! -e $LIGHTTPD_DIR/ssl/$DOMAIN/cert.pem ]; then
+	    if [ ! -h $LIGHTTPD_DIR/ssl/$DOMAIN/cert.pem ]; then
 		sudo ln -s $SOURCE_DIR/$DOMAIN/cert.pem $LIGHTTPD_DIR/ssl/$DOMAIN/
 	    fi
 
-	    if [ ! -e $LIGHTTPD_DIR/ssl/$DOMAIN/chain.pem ]; then
+	    if [ ! -h $LIGHTTPD_DIR/ssl/$DOMAIN/chain.pem ]; then
 		sudo ln -s $SOURCE_DIR/$DOMAIN/chain.pem $LIGHTTPD_DIR/ssl/$DOMAIN/
 	    fi
 	    
