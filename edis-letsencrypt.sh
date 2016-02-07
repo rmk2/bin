@@ -48,14 +48,14 @@ for i in $DOMAIN_LIST; do
 
 	    # Combine key and chain for lighttpd
 	    echo "...concatenating files"
-	    sudo cat $SOURCE_DIR/$DOMAIN/cert.pem $SOURCE_DIR/$DOMAIN/privkey.pem | sudo tee $LIGHTTPD_DIR/ssl/$DOMAIN/server.pem
+	    sudo cat $SOURCE_DIR/$DOMAIN/cert.pem $SOURCE_DIR/$DOMAIN/privkey.pem | sudo tee $LIGHTTPD_DIR/ssl/$DOMAIN/server.pem &> /dev/null
 
-	    if [ ! -h $LIGHTTPD_DIR/ssl/$DOMAIN/cert.pem ]; then
-		sudo ln -s $SOURCE_DIR/$DOMAIN/cert.pem $LIGHTTPD_DIR/ssl/$DOMAIN/
+	    if [ ! -h "$LIGHTTPD_DIR/ssl/$DOMAIN/cert.pem" ]; then
+		sudo ln -sf $SOURCE_DIR/$DOMAIN/cert.pem $LIGHTTPD_DIR/ssl/$DOMAIN/
 	    fi
 
-	    if [ ! -h $LIGHTTPD_DIR/ssl/$DOMAIN/chain.pem ]; then
-		sudo ln -s $SOURCE_DIR/$DOMAIN/chain.pem $LIGHTTPD_DIR/ssl/$DOMAIN/
+	    if [ ! -h "$LIGHTTPD_DIR/ssl/$DOMAIN/chain.pem" ]; then
+		sudo ln -sf $SOURCE_DIR/$DOMAIN/chain.pem $LIGHTTPD_DIR/ssl/$DOMAIN/
 	    fi
 	    
 	    ;;
