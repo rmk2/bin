@@ -1,25 +1,42 @@
 #!/bin/bash
 
+set -e
+
+GITDIR="$(pwd)/.git"
+
 ARRAY="ox bb edis"
 
-for i in "$@"; do
-    case "$1" in
-	-p | --pi | -pi | pi)
+while getopts :pHatg: OPT; do
+    case $OPT in
+	p|+p)
 	    ARRAY+="pi"
 	    ;;
-	-h | --hooks | -hooks | hooks)
+	H|+H)
 	    HOOKS=true
 	    ;;
-	-a | --archive | -archive | archive)
+	a|+a)
 	    ARCHIVE=true
 	    ;;
-	-t | --tags | -tags | tags)
+	t|+t)
 	    TAGS=true
 	    ;;
+	g|+g)
+	    if [ $(basename "$OPTARG") == ".git" ]; then
+		GITDIR="$OPTARG"
+	    elif [ -d "$OPTARG" ] && [ -d "$OPTARG/.git" ]; then
+		GITDIR="$OPTARG/.git"
+	    else
+		echo "Error: This directory is not under version control via git!"
+		exit 1
+	    fi
+	    ;;
+	*)
+	    echo "usage: ${0##*/} [+-phatg ARG} [--] ARGS..."
+	    exit 2
     esac
-    shift
 done
-
+shift $(( OPTIND - 1 ))
+OPTIND=1
 
 function exec-push() {
     for i in $ARRAY; do
@@ -27,9 +44,9 @@ function exec-push() {
 	echo "> $i"
 	echo "-------------"
 	if [ "$TAGS" == "true" ]; then
-	    git push --tags $i HEAD:master
+	    git --git-dir=$GITDIR push --tags $i HEAD:master
 	fi
-	git push $i HEAD:master
+	git --git-dir=$GITDIR push $i HEAD:master
     done
 }
 
@@ -37,7 +54,7 @@ function exec-hooks() {
     echo "-------------"
     echo "> executing post-commit hook"
     echo "-------------"
-    sh .git/hooks/post-commit
+    sh $GITDIR/hooks/post-commit
     echo Success
 }
 
@@ -45,7 +62,7 @@ function exec-archive() {
     echo "-------------"
     echo "> running git archive on HEAD"
     echo "-------------"
-    git archive --format=tar.gz HEAD > ~/$(basename $(pwd) | tr -d '.').tar.gz
+    git --git-dir=$GITDIR archive --format=tar.gz HEAD > ~/$(basename $(dirname $GITDIR) | tr -d '.').tar.gz
     echo Success
 }
 
@@ -58,7 +75,8 @@ if [ $(pwd) = '/home/ryko/Documents/TeX/universitet' ]; then
     echo "-------------"
     echo "Mission accomplished!"
     echo
-elif [ -d './.git' ]; then
+    exit 0
+elif [ -d $GITDIR ]; then
     echo
     echo "Pushing to remote repositories"
     exec-push
@@ -71,6 +89,8 @@ elif [ -d './.git' ]; then
     echo "-------------"
     echo "Mission accomplished!"
     echo
+    exit 0
 else
     echo "Error: This directory is not under version control via git!"
+    exit 1
 fi
