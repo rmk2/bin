@@ -44,7 +44,7 @@ for i in $DOMAIN_LIST; do
 
 	    HOOKS='--post-hook "systemctl reload-or-restart lighttpd.service"'
 
-	    sudo letsencrypt auth --renew-by-default --email $EMAIL -d $DOMAIN -w $SERVER_DIR/$DOMAIN/pages $HOOKS
+	    sudo letsencrypt auth --renew --email $EMAIL -d $DOMAIN -w $SERVER_DIR/$DOMAIN/pages $HOOKS
 
 	    LIGHTTPD_DIR="/etc/lighttpd"
 
@@ -65,7 +65,7 @@ for i in $DOMAIN_LIST; do
 
 	    HOOKS='--post-hook "systemctl reload-or-restart exim4.service"'
 
-	    sudo letsencrypt auth --renew-by-default --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages $HOOKS
+	    sudo letsencrypt auth --renew --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages $HOOKS
 
 	    EXIM_DIR="/etc/exim4"
 	    
@@ -83,7 +83,7 @@ for i in $DOMAIN_LIST; do
 
 	    HOOKS='--post-hook "systemctl reload-or-restart dovecot.service"'
 
-	    sudo letsencrypt auth --renew-by-default --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages $HOOKS
+	    sudo letsencrypt auth --renew --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages $HOOKS
 	    
 	    ;;
 	*)
