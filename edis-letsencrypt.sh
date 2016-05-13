@@ -3,14 +3,14 @@
 set -e
 
 DOMAIN=""
+HOOKS=""
 
-BIN_DIR="/home/ryko/.local/share/letsencrypt/bin"
 SOURCE_DIR="/etc/letsencrypt/live"
 SERVER_DIR="/var/www/servers"
 
 EMAIL="mail@rmk2.org"
 
-DOMAIN_LIST="eve.rmk2.org imap.rmk2.org smtp.rmk2.org f.rmk2.org p.rmk2.org"
+DOMAIN_LIST="eve.rmk2.org imap.rmk2.org-0002 smtp.rmk2.org f.rmk2.org p.rmk2.org"
 
 while getopts :d:e: OPT; do
     case $OPT in
@@ -42,7 +42,9 @@ for i in $DOMAIN_LIST; do
     case $i in
 	"eve.rmk2.org" | "p.rmk2.org" | "f.rmk2.org")
 
-	    sudo $BIN_DIR/letsencrypt auth --renew-by-default --email $EMAIL -d $DOMAIN -w $SERVER_DIR/$DOMAIN/pages
+	    HOOKS='--post-hook "systemctl reload-or-restart lighttpd.service"'
+
+	    sudo letsencrypt auth --renew-by-default --email $EMAIL -d $DOMAIN -w $SERVER_DIR/$DOMAIN/pages $HOOKS
 
 	    LIGHTTPD_DIR="/etc/lighttpd"
 
@@ -61,7 +63,9 @@ for i in $DOMAIN_LIST; do
 	    ;;
 	"smtp.rmk2.org")
 
-	    sudo $BIN_DIR/letsencrypt auth --renew-by-default --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages
+	    HOOKS='--post-hook "systemctl reload-or-restart exim4.service"'
+
+	    sudo letsencrypt auth --renew-by-default --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages $HOOKS
 
 	    EXIM_DIR="/etc/exim4"
 	    
@@ -77,7 +81,9 @@ for i in $DOMAIN_LIST; do
 	    ;;
 	"imap.rmk2.org")
 
-	    sudo $BIN_DIR/letsencrypt auth --renew-by-default --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages
+	    HOOKS='--post-hook "systemctl reload-or-restart dovecot.service"'
+
+	    sudo letsencrypt auth --renew-by-default --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages $HOOKS
 	    
 	    ;;
 	*)
