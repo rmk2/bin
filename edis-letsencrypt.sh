@@ -32,6 +32,8 @@ echo
 echo "> Email address: $EMAIL"
 echo "> Renewing the following domains: $DOMAIN_LIST"
 
+sudo letsencrypt renew
+
 for i in $DOMAIN_LIST; do
     DOMAIN=$i
 
@@ -41,10 +43,6 @@ for i in $DOMAIN_LIST; do
     
     case $i in
 	"eve.rmk2.org" | "p.rmk2.org" | "f.rmk2.org")
-
-	    HOOKS='--post-hook "systemctl reload-or-restart lighttpd.service"'
-
-	    sudo letsencrypt renew --email $EMAIL -d $DOMAIN -w $SERVER_DIR/$DOMAIN/pages $HOOKS
 
 	    LIGHTTPD_DIR="/etc/lighttpd"
 
@@ -63,10 +61,6 @@ for i in $DOMAIN_LIST; do
 	    ;;
 	"smtp.rmk2.org")
 
-	    HOOKS='--post-hook "systemctl reload-or-restart exim4.service"'
-
-	    sudo letsencrypt renew --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages $HOOKS
-
 	    EXIM_DIR="/etc/exim4"
 	    
 	    # Copy keys so exim4 can use them
@@ -81,18 +75,18 @@ for i in $DOMAIN_LIST; do
 	    ;;
 	"imap.rmk2.org")
 
-	    HOOKS='--post-hook "systemctl reload-or-restart dovecot.service"'
-
-	    sudo letsencrypt renew --email $EMAIL -d $DOMAIN -w $SERVER_DIR/eve.rmk2.org/pages $HOOKS
-	    
 	    ;;
 	*)
 	    
     esac
-
+    
     echo "Success!"
-   
+
+    
 done
+
+echo "Restarting services"
+sudo systemctl restart {exim4.service,dovecot.service,lighttpd.service}
 
 echo "-------------"
 echo "Mission accomplished!"
