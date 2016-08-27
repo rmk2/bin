@@ -6,10 +6,13 @@ GITDIR="$(pwd)/.git"
 
 ARRAY="ox bb edis"
 
-while getopts :pHatg: OPT; do
+while getopts :pHatg:s: OPT; do
     case $OPT in
 	p|+p)
-	    ARRAY+="pi"
+	    ARRAY+=" pi2"
+	    ;;
+	s|+s)
+	    ARRAY+=" $OPTARG"
 	    ;;
 	H|+H)
 	    HOOKS=true
@@ -31,7 +34,7 @@ while getopts :pHatg: OPT; do
 	    fi
 	    ;;
 	*)
-	    echo "usage: ${0##*/} [+-phatg ARG} [--] ARGS..."
+	    echo "usage: ${0##*/} [+-phatg ARG [+-s ARG} [--] ARGS..."
 	    exit 2
     esac
 done

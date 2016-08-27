@@ -54,7 +54,7 @@ function add() {
 function push() {
     for i in $ARRAY; do
 	NAME=$i
-	git push $NAME HEAD:master
+	git push $NAME master
     done
 }
 
