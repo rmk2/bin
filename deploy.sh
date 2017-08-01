@@ -19,6 +19,9 @@
 # Exim
 /etc/exim4/exim4.conf.template
 /etc/default/exim4
+/etc/exim4/update-exim4.conf.conf
+/etc/exim4/dh4096.pem
+/etc/exim4/dkim.private.key
 
 # Dovecot
 /etc/dovecot/dovecot.conf
@@ -86,5 +89,17 @@
 
 # radicale
 /etc/radicale/config
+
+# eve-git systemd service
+/lib/systemd/system/eve-git.service
+
+# lighttpd
+/etc/lighttpd/lighttpd.conf
+/etc/lighttpd/incl-dirlist.conf
+/etc/lighttpd/incl-indexfile.conf
+/etc/lighttpd/incl-redirect_ssl.conf
+/etc/lighttpd/incl-docroot.conf
+/etc/lighttpd/incl-redirect_public.conf
+/etc/lighttpd/conf-available/10-ssl.conf
 
 # openssl req -newkey rsa:4096 -days 3650 -nodes -out <file> -keyout <file>
