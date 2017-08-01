@@ -13,6 +13,7 @@ function init() {
 }
 
 # Generate CA certificate/key
+
 function exec_ca() {
     ./build-ca 
 }
