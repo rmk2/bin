@@ -4,7 +4,7 @@ set -e
 
 GITDIR="$(pwd)/.git"
 
-ARRAY="ox bb edis"
+ARRAY="bb edis"
 
 while getopts :pHatg:s: OPT; do
     case $OPT in
